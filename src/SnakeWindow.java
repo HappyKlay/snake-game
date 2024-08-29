@@ -7,7 +7,8 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 
 public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
-    private GameLogic gameLogic;
+    private final GameLogic gameLogic;
+    private final Draw draw;
 
     SnakeWindow(int boardWidth, int boardHeight) {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
@@ -16,11 +17,17 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
         setFocusable(true);
 
         gameLogic = new GameLogic(new Random());
+        draw = new Draw();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        repaint();
+    }
 
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        draw.drawGrid(graphics);
     }
 
     @Override
