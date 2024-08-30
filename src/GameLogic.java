@@ -1,14 +1,15 @@
 import java.util.Random;
 
 public class GameLogic  {
-    private Tile food = new Tile(Constants.NULL, Constants.NULL);
-    private Snake snake = new Snake();
-    private Random random;
+    private final Random random = new Random();
+    private final Tile food = new Tile(random.nextInt(Constants.BOARD_WIDTH/Constants.TILE_SIZE),
+                                 random.nextInt(Constants.BOARD_HEIGHT/Constants.TILE_SIZE));
+    private final Snake snake = new Snake();
     private int velocityX;
     private int velocityY;
-    public GameLogic(Random random) {
-        this.random = random;
 
+    public Tile getFood() {
+        return food;
     }
 
     public int getVelocityX() {
@@ -25,6 +26,10 @@ public class GameLogic  {
 
     public void setVelocityY(int velocityY) {
         this.velocityY = velocityY;
+    }
+
+    public Snake getSnake() {
+        return snake;
     }
 }
 

@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 
 public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     private final GameLogic gameLogic;
@@ -16,8 +15,8 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
         addKeyListener(this);
         setFocusable(true);
 
-        gameLogic = new GameLogic(new Random());
-        draw = new Draw();
+        gameLogic = new GameLogic();
+        draw = new Draw(gameLogic);
     }
 
     @Override
@@ -28,6 +27,7 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         draw.drawGrid(graphics);
+        draw.drawTiles(graphics);
     }
 
     @Override
