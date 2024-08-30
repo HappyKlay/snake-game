@@ -9,14 +9,17 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     private final GameLogic gameLogic;
     private final Draw draw;
 
-    SnakeWindow(int boardWidth, int boardHeight) {
+    private void initializeWindow(int boardWidth, int boardHeight) {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
         addKeyListener(this);
         setFocusable(true);
+    }
 
-        gameLogic = new GameLogic();
-        draw = new Draw(gameLogic);
+    SnakeWindow(GameLogic gameLogic, int boardWidth, int boardHeight) {
+        initializeWindow(boardWidth,boardHeight);
+        this.gameLogic = gameLogic;
+        this.draw = new Draw();
     }
 
     @Override
@@ -27,24 +30,12 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         draw.drawGrid(graphics);
-        draw.drawTiles(graphics);
+        draw.drawTiles(graphics, gameLogic.getSnake(), gameLogic.getFood());
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            gameLogic.setVelocityX(Constants.NONE);
-            gameLogic.setVelocityY(Constants.UP);
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            gameLogic.setVelocityX(Constants.NONE);
-            gameLogic.setVelocityY(Constants.DOWN);
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            gameLogic.setVelocityX(Constants.LEFT);
-            gameLogic.setVelocityY(Constants.NONE);
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            gameLogic.setVelocityX(Constants.RIGHT);
-            gameLogic.setVelocityY(Constants.NONE);
-        }
+        gameLogic.handleKey(e);
     }
 
     @Override

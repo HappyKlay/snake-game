@@ -9,7 +9,9 @@ public class Main {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        SnakeWindow snakeWindow = new SnakeWindow(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
+        GameLogic gameLogic = new GameLogic();
+
+        SnakeWindow snakeWindow = new SnakeWindow(gameLogic, Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
         frame.add(snakeWindow);
         frame.pack();
         frame.requestFocus();
