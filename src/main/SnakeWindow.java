@@ -1,3 +1,5 @@
+package main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +26,9 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        gameLogic.move();
         repaint();
+        System.out.println("asd");
     }
 
     public void paintComponent(Graphics graphics) {

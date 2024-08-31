@@ -1,3 +1,5 @@
+package main;
+
 import javax.swing.*;
 
 public class Main {
@@ -15,5 +17,8 @@ public class Main {
         frame.add(snakeWindow);
         frame.pack();
         frame.requestFocus();
+
+//        Timer timer = new Timer(100, snakeWindow);
+//        timer.start();
     }
 }

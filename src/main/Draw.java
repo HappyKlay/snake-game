@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.*;
 
 public class Draw {
@@ -15,7 +17,7 @@ public class Draw {
                             Constants.TILE_SIZE, Constants.TILE_SIZE, true);
 
         graphics.setColor(Constants.SNAKE_COLOR);
-        graphics.fill3DRect(snake.getSnakeHead().x() * Constants.TILE_SIZE, snake.getSnakeHead().y() * Constants.TILE_SIZE,
+        graphics.fill3DRect(snake.getHead().x() * Constants.TILE_SIZE, snake.getHead().y() * Constants.TILE_SIZE,
                             Constants.TILE_SIZE, Constants.TILE_SIZE, true);
     }
 }
