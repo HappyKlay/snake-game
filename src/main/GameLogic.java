@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Random;
 
@@ -10,9 +9,10 @@ public class GameLogic  {
     private Tile food = new Tile(random.nextInt(Constants.BOARD_COLUMNS),
                                  random.nextInt(Constants.BOARD_ROWS));
     private final Snake snake = new Snake();
-    private Constants.Direction direction = Constants.Direction.UP;
+    private Constants.Direction direction = Constants.Direction.NONE;
 
     public void move() {
+        calculateCollision();
         snake.setHead(new Tile(snake.getHead().x() + direction.getDeltaX(),
                                   snake.getHead().y() + direction.getDeltaY()));
 
@@ -37,12 +37,11 @@ public class GameLogic  {
 
     public void handleKey(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP      -> setDirection(Constants.Direction.UP);
-            case KeyEvent.VK_DOWN    -> setDirection(Constants.Direction.DOWN);
-            case KeyEvent.VK_LEFT    -> setDirection(Constants.Direction.LEFT);
-            case KeyEvent.VK_RIGHT   -> setDirection(Constants.Direction.RIGHT);
+            case KeyEvent.VK_UP, KeyEvent.VK_W -> setDirection(Constants.Direction.UP);
+            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> setDirection(Constants.Direction.DOWN);
+            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> setDirection(Constants.Direction.LEFT);
+            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> setDirection(Constants.Direction.RIGHT);
         }
-        System.out.println(e.toString());
     }
 
     public void calculateCollision() {

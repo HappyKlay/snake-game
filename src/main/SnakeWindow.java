@@ -16,19 +16,20 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
         setBackground(Color.BLACK);
         addKeyListener(this);
         setFocusable(true);
+        this.requestFocusInWindow();
     }
 
     SnakeWindow(GameLogic gameLogic, int boardWidth, int boardHeight) {
         initializeWindow(boardWidth,boardHeight);
         this.gameLogic = gameLogic;
         this.draw = new Draw();
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         gameLogic.move();
         repaint();
-        System.out.println("asd");
     }
 
     public void paintComponent(Graphics graphics) {
@@ -39,16 +40,15 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+
+
+    @Override
+    public void keyPressed(KeyEvent e) {
         gameLogic.handleKey(e);
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }
