@@ -23,9 +23,9 @@ public class GameLogic  {
             Tile temp = new Tile(previous.x(), previous.y());
             bodyPiece.x(temp.x());
             bodyPiece.y(temp.y());
-            previous = temp;
+            previous = new Tile(previous.x() - direction.getDeltaX(), previous.y() - direction.getDeltaY());
         }
-
+        snake.removeLastPart();
     }
 
     public void setDirection (Constants.Direction direction) {
@@ -46,9 +46,13 @@ public class GameLogic  {
 
     public void calculateCollision() {
         if (snake.getHead().x() == food.x() && snake.getHead().y() == food.y()) {
-            snake.grow();
+            grow();
             updateFood(random.nextInt(Constants.BOARD_COLUMNS),
                        random.nextInt(Constants.BOARD_ROWS));
+
+            System.out.println(snake.getHead().x() + " | " + snake.getHead().y());
+            System.out.println(snake.getLastPart().x() + " | " + snake.getLastPart().y() + "\n");
+
         }
 
         Deque<Tile> body = snake.getBody();
@@ -60,6 +64,15 @@ public class GameLogic  {
                 gameOver();
             }
         }
+    }
+
+    public Tile calculateNewTile(Tile tile) {
+        return null;
+    }
+
+    private void grow() {
+        Tile tile = snake.getLastPart();
+        snake.addTile(tile.x() - direction.getDeltaX(), tile.y() - direction.getDeltaY());
     }
 
     private void updateFood(int x, int y) {

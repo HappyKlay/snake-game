@@ -23,7 +23,7 @@ public class Main {
 
         snakeWindow.requestFocusInWindow();
 
-        Timer timer = new Timer(50, snakeWindow);
+        Timer timer = new Timer(100, snakeWindow);
         timer.start();
     }
 }

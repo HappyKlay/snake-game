@@ -13,7 +13,7 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
 
     private void initializeWindow(int boardWidth, int boardHeight) {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
-        setBackground(Color.BLACK);
+        setBackground(Constants.BACKGROUNG_COLOR);
         addKeyListener(this);
         setFocusable(true);
         this.requestFocusInWindow();

@@ -7,6 +7,16 @@ public class Snake {
 
     public Snake() {
         body.add(new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y));
+        body.add((new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y + 1)));
+        body.add((new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y + 2)));
+        for (Tile tile:
+             body) {
+            System.out.println(tile.x() + "    " + tile.y());
+        }
+    }
+
+    public void removeLastPart() {
+        body.removeLast();
     }
 
     public Tile getHead() {
@@ -21,9 +31,12 @@ public class Snake {
         return body;
     }
 
-    public void grow() {
-        Tile tail = body.getLast();
-        body.add(new Tile(tail.x(), tail.y()));
+    public void addTile(Tile tile) {
+        body.add(new Tile(tile.x(), tile.y()));
+    }
+
+    public void addTile(int x, int y) {
+        body.add(new Tile(x, y));
     }
 
     public Tile getLastPart() {
