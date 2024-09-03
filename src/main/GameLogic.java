@@ -6,33 +6,38 @@ import java.util.Random;
 
 public class GameLogic  {
     private final Random random = new Random();
-    private Tile food = new Tile(random.nextInt(Constants.BOARD_COLUMNS),
-                                 random.nextInt(Constants.BOARD_ROWS));
+    private Tile food = new Tile(10, 8);
     private final Snake snake = new Snake();
     private Constants.Direction direction = Constants.Direction.NONE;
 
     public void move() {
-        calculateCollision();
-        snake.setHead(new Tile(snake.getHead().x() + direction.getDeltaX(),
-                                  snake.getHead().y() + direction.getDeltaY()));
-
-        Tile previous = snake.getHead();
-
-        for (Tile bodyPiece:
-             snake.getBody()) {
-            Tile temp = new Tile(previous.x(), previous.y());
-            bodyPiece.x(temp.x());
-            bodyPiece.y(temp.y());
-            previous = new Tile(previous.x() - direction.getDeltaX(), previous.y() - direction.getDeltaY());
+        if (direction == Constants.Direction.NONE) {
+            return;
         }
+
+        Tile newHead = calculateNewHeadPosition();
+
+        if (isCollision(newHead)) {
+            gameOver();
+            return;
+        }
+
+        snake.setHead(newHead);
         snake.removeLastPart();
     }
 
-    public void setDirection (Constants.Direction direction) {
-        if (direction == direction.opposite()) {
+    private Tile calculateNewHeadPosition() {
+        return new Tile(
+                snake.getHead().x() + direction.getDeltaX(),
+                snake.getHead().y() + direction.getDeltaY()
+        );
+    }
+
+    public void setDirection (Constants.Direction newDirection) {
+        if (newDirection == null || newDirection == newDirection.opposite()) {
             return;
         }
-        this.direction = direction;
+        this.direction = newDirection;
     }
 
     public void handleKey(KeyEvent e) {
@@ -44,30 +49,18 @@ public class GameLogic  {
         }
     }
 
-    public void calculateCollision() {
-        if (snake.getHead().x() == food.x() && snake.getHead().y() == food.y()) {
+    private boolean isCollision(Tile newHead) {
+        if (newHead.x() == food.x() && newHead.y() == food.y()) {
+            System.out.println("s");
             grow();
-            updateFood(random.nextInt(Constants.BOARD_COLUMNS),
-                       random.nextInt(Constants.BOARD_ROWS));
-
-            System.out.println(snake.getHead().x() + " | " + snake.getHead().y());
-            System.out.println(snake.getLastPart().x() + " | " + snake.getLastPart().y() + "\n");
-
+            food = generateRandomFood();
+            return false;
         }
-
-        Deque<Tile> body = snake.getBody();
-
-        for (Tile bodyPiece:
-             body) {
-            if (snake.getHead().x() == bodyPiece.x() &&
-                snake.getHead().y() == bodyPiece.y()) {
-                gameOver();
-            }
-        }
+        return snake.getBody().stream().anyMatch(newHead::equals);
     }
 
-    public Tile calculateNewTile(Tile tile) {
-        return null;
+    private Tile generateRandomFood() {
+        return new Tile(random.nextInt(Constants.BOARD_COLUMNS), random.nextInt(Constants.BOARD_ROWS));
     }
 
     private void grow() {
@@ -80,20 +73,12 @@ public class GameLogic  {
     }
 
     public void gameOver() {
-
+        System.out.println("game over");
     }
 
     public Tile getFood() {
         return food;
     }
-
-   public int getDeltaX() {
-       return direction.getDeltaX();
-   }
-
-   public int getDeltaY() {
-        return direction.getDeltaY();
-   }
 
     public Snake getSnake() {
         return snake;

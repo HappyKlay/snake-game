@@ -10,10 +10,11 @@ import java.awt.event.KeyListener;
 public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     private final GameLogic gameLogic;
     private final Draw draw;
+    private Score score;
 
     private void initializeWindow(int boardWidth, int boardHeight) {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
-        setBackground(Constants.BACKGROUNG_COLOR);
+
         addKeyListener(this);
         setFocusable(true);
         this.requestFocusInWindow();
@@ -23,7 +24,7 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
         initializeWindow(boardWidth,boardHeight);
         this.gameLogic = gameLogic;
         this.draw = new Draw();
-
+        score = new Score();
     }
 
     @Override
@@ -34,8 +35,9 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        draw.drawGrid(graphics);
+        draw.drawGameWindow(graphics);
         draw.drawTiles(graphics, gameLogic.getSnake(), gameLogic.getFood());
+        draw.drawScore(graphics, score);
     }
 
     @Override

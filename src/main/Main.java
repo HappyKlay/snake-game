@@ -13,7 +13,7 @@ public class Main {
 
         GameLogic gameLogic = new GameLogic();
 
-        SnakeWindow snakeWindow = new SnakeWindow(gameLogic, Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
+        SnakeWindow snakeWindow = new SnakeWindow(gameLogic, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         frame.add(snakeWindow);
 
         frame.pack();

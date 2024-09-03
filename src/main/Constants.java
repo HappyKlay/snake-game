@@ -3,10 +3,12 @@ package main;
 import java.awt.*;
 
 public class Constants {
-    public static final int BOARD_WIDTH  = 800;
-    public static final int BOARD_HEIGHT = 800;
-    public static final int TILE_SIZE    = 20;
-
+    public static final int BOARD_WIDTH    = 700;
+    public static final int BOARD_HEIGHT   = 700;
+    public static final int SCREEN_WIDTH   = 750;
+    public static final int SCREEN_HEIGHT  = 800;
+    public static final int TILE_SIZE      = 50;
+    public static final int BORDER_WIDTH    = 25;
 
     public static final int SNAKE_HEAD_START_X = 20;
     public static final int SNAKE_HEAD_START_Y = 20;

@@ -9,10 +9,6 @@ public class Snake {
         body.add(new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y));
         body.add((new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y + 1)));
         body.add((new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y + 2)));
-        for (Tile tile:
-             body) {
-            System.out.println(tile.x() + "    " + tile.y());
-        }
     }
 
     public void removeLastPart() {

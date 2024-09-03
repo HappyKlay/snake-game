@@ -3,44 +3,85 @@ package main;
 import java.awt.*;
 
 public class Draw {
-    public void drawGrid(Graphics graphics) {
-        for (int i = 0; i < Constants.BOARD_HEIGHT / Constants.TILE_SIZE; i++) {
-            int position = i * Constants.TILE_SIZE;
-            graphics.drawLine(0, position, Constants.BOARD_WIDTH, position);
-            graphics.drawLine(position, 0, position, Constants.BOARD_HEIGHT);
+    private static final Color LIGHT_TILE_COLOR = new Color(170, 215, 81);
+    private static final Color DARK_TILE_COLOR = new Color(162, 209, 73);
+    private static final Color BORDER_COLOR = new Color(87, 138, 52);
+    private static final Color SCORE_BACKGROUND_COLOR = new Color(59, 94, 35);
+    private static final Font SCORE_FONT = new Font("Serif", Font.BOLD | Font.ITALIC, 30);
+
+    private Color getTileColor(int row, int col) {
+        return (row + col) % 2 == 0 ? LIGHT_TILE_COLOR : DARK_TILE_COLOR;
+    }
+
+    private void drawGrid(Graphics2D g2d) {
+        int rows = Constants.BOARD_HEIGHT / Constants.TILE_SIZE;
+        int cols = Constants.BOARD_WIDTH / Constants.TILE_SIZE;
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                g2d.setColor(getTileColor(row, col));
+                g2d.fillRect(
+                        col * Constants.TILE_SIZE + Constants.BORDER_WIDTH,
+                        row * Constants.TILE_SIZE + Constants.BORDER_WIDTH + Constants.TILE_SIZE,
+                        Constants.TILE_SIZE, Constants.TILE_SIZE
+                );
+            }
         }
     }
 
     public void drawTiles(Graphics graphics, Snake snake, Tile food) {
-        // food
-        graphics.setColor(Constants.FOOD_COLOR);
-        graphics.fill3DRect(food.x() * Constants.TILE_SIZE, food.y() * Constants.TILE_SIZE,
+        Graphics2D g2d = (Graphics2D) graphics;
+
+        // Draws food
+        g2d.setColor(Constants.FOOD_COLOR);
+        g2d.fill3DRect(food.x() * Constants.TILE_SIZE, food.y() * Constants.TILE_SIZE,
                             Constants.TILE_SIZE, Constants.TILE_SIZE, true);
 
-        for (Tile tile:
-                snake.getBody()) {
-            System.out.println(tile.x() + "    " + tile.y());
-        }
-        System.out.println("\n\n");
-
-        // body
-        Tile temp = snake.getHead();
-        for (Tile tile :
-                snake.getBody()) {
-
-//            tile = new Tile(temp.x() + , temp.y())
-
-
-            graphics.setColor(Color.blue);
-            graphics.fill3DRect(tile.x() * Constants.TILE_SIZE, tile.y() * Constants.TILE_SIZE,
-                                    Constants.TILE_SIZE, Constants.TILE_SIZE, true);
+        // Draws snake's body
+        for (Tile tile : snake.getBody()) {
+            g2d.setColor(Color.blue);
+            g2d.fillOval(tile.x() * Constants.TILE_SIZE, tile.y() * Constants.TILE_SIZE,
+                                    Constants.TILE_SIZE, Constants.TILE_SIZE);
         }
 
+//         Draws snake's head
+        g2d.setColor(Constants.SNAKE_COLOR);
+        g2d.fillOval(snake.getHead().x() * Constants.TILE_SIZE, snake.getHead().y() * Constants.TILE_SIZE,
+                Constants.TILE_SIZE, Constants.TILE_SIZE);
+    }
 
+    public void drawScore(Graphics graphics, Score score) {
+        Graphics2D g2d = (Graphics2D) graphics;
 
-//         head
-        graphics.setColor(Constants.SNAKE_COLOR);
-        graphics.fill3DRect(snake.getHead().x() * Constants.TILE_SIZE, snake.getHead().y() * Constants.TILE_SIZE,
-                Constants.TILE_SIZE, Constants.TILE_SIZE, true);
+        g2d.setColor(SCORE_BACKGROUND_COLOR);
+        g2d.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.TILE_SIZE);
+
+        String scoreText = "SCORE: " + score.getScore();
+
+        // Draw shadow for score text
+        g2d.setColor(Color.DARK_GRAY);
+        g2d.setFont(SCORE_FONT);
+        g2d.drawString(scoreText, 11, 31);
+
+        // Draw main score text
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(scoreText, 10, 30);
+    }
+
+    public void drawGameWindow(Graphics graphics) {
+        Graphics2D g2d = (Graphics2D) graphics;
+
+        // draw score background
+        g2d.setColor(SCORE_BACKGROUND_COLOR);
+        g2d.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.TILE_SIZE);
+
+        // draw borders
+        g2d.setColor(BORDER_COLOR);
+        g2d.fillRect(0, Constants.TILE_SIZE + Constants.BORDER_WIDTH, Constants.BORDER_WIDTH, Constants.BOARD_HEIGHT);
+        g2d.fillRect(0, Constants.SCREEN_HEIGHT - Constants.BORDER_WIDTH, Constants.SCREEN_WIDTH, Constants.TILE_SIZE / 2);
+        g2d.fillRect(Constants.SCREEN_WIDTH - Constants.TILE_SIZE / 2, Constants.TILE_SIZE + Constants.BORDER_WIDTH, Constants.BORDER_WIDTH, Constants.BOARD_HEIGHT);
+        g2d.fillRect(0, Constants.TILE_SIZE, Constants.SCREEN_WIDTH, Constants.BORDER_WIDTH);
+
+        drawGrid(g2d);
     }
 }
