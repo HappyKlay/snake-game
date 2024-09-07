@@ -2,6 +2,7 @@ package main;
 
 import java.awt.*;
 
+
 public class Draw {
     private static final Color LIGHT_TILE_COLOR = new Color(170, 215, 81);
     private static final Color DARK_TILE_COLOR = new Color(162, 209, 73);
@@ -40,23 +41,31 @@ public class Draw {
         // Draws food
         g2d.setColor(Constants.FOOD_COLOR);
         g2d.fillOval(
-                food.x() * Constants.TILE_SIZE,
-                food.y() * Constants.TILE_SIZE,
+                food.x() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
+                food.y() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
                 Constants.TILE_SIZE,
                 Constants.TILE_SIZE
         );
 
+
         // Draws snake's body
         for (Tile tile : snake.getBody()) {
             g2d.setColor(Color.blue);
-            g2d.fillOval(tile.x() * Constants.TILE_SIZE, tile.y() * Constants.TILE_SIZE,
-                                    Constants.TILE_SIZE, Constants.TILE_SIZE);
+            g2d.fillOval(
+                    tile.x() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
+                    tile.y() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
+                    Constants.TILE_SIZE,
+                    Constants.TILE_SIZE
+            );
         }
 
 //         Draws snake's head
         g2d.setColor(Constants.SNAKE_COLOR);
-        g2d.fillOval(snake.getHead().x() * Constants.TILE_SIZE, snake.getHead().y() * Constants.TILE_SIZE,
-                Constants.TILE_SIZE, Constants.TILE_SIZE);
+        g2d.fillOval(
+                snake.getHead().x() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
+                snake.getHead().y() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
+                Constants.TILE_SIZE,
+                Constants.TILE_SIZE);
     }
 
     public void drawScore(Graphics graphics, Score score) {

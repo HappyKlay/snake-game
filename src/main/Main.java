@@ -1,8 +1,5 @@
 package main;
 
-import main.Constants;
-import main.GameLogic;
-import main.SnakeWindow;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

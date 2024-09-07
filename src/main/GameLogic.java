@@ -1,10 +1,7 @@
 package main;
 
 import java.awt.event.KeyEvent;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class GameLogic  {
     private final Random random = new Random();
@@ -40,6 +37,9 @@ public class GameLogic  {
         if (newDirection == null || newDirection == newDirection.opposite()) {
             return;
         }
+        if (direction == Constants.Direction.NONE && newDirection == Constants.Direction.LEFT) {
+            return;
+        }
         this.direction = newDirection;
     }
 
@@ -67,10 +67,11 @@ public class GameLogic  {
         direction = Constants.Direction.NONE;
         gameOver = false;
     }
-
     private boolean isCollision(Tile newHead) {
+        if (newHead.x() <= 0 || newHead.y() <= 1 || newHead.x() > Constants.BOARD_ROWS || newHead.y() > Constants.BOARD_COLUMNS + 1) {
+            return true;
+        }
         if (newHead.x() == food.x() && newHead.y() == food.y()) {
-            System.out.println("s");
             grow();
             food = generateRandomFood();
             return false;
@@ -79,20 +80,21 @@ public class GameLogic  {
     }
 
     private Tile generateRandomFood() {
-        Set<Tile> snakeBodySet = new HashSet<>(snake.getBody());
-
         int x, y;
         Tile newTile;
 
         do {
-            x = random.nextInt(Constants.BOARD_COLUMNS) + 1;
-            y = random.nextInt(Constants.BOARD_ROWS) + 1;
+            x = random.nextInt(Constants.BOARD_COLUMNS - 1) + 1;
+            y = random.nextInt(Constants.BOARD_ROWS ) + 2;
             newTile = new Tile(x, y);
-        } while (snakeBodySet.contains(newTile));
+        } while (isContainsFood(newTile));
 
         return newTile;
     }
 
+    private boolean isContainsFood(Tile food) {
+        return snake.getBody().stream().anyMatch(tile -> tile.x() == food.x() && tile.y() == food.y());
+    }
 
     private void grow() {
         Tile tile = snake.getLastPart();
@@ -105,7 +107,6 @@ public class GameLogic  {
 
     public void gameOver() {
         gameOver = true;
-        System.out.println("game over");
     }
 
     public boolean isGameOver() {
