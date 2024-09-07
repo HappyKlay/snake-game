@@ -7,9 +7,24 @@ public class Snake {
 
     public Snake() {
         body.add(new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y));
-        body.add((new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y + 1)));
-        body.add((new Tile(Constants.SNAKE_HEAD_START_X, Constants.SNAKE_HEAD_START_Y + 2)));
+        body.add((new Tile(Constants.SNAKE_HEAD_START_X - 1, Constants.SNAKE_HEAD_START_Y)));
+        body.add((new Tile(Constants.SNAKE_HEAD_START_X - 2, Constants.SNAKE_HEAD_START_Y)));
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o.getClass() == Snake) {
+//        }
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Snake snake = (Snake) o;
+//        return Objects.equals(body, snake.body);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(body);
+//    }
 
     public void removeLastPart() {
         body.removeLast();

@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     private final GameLogic gameLogic;
     private final Draw draw;
+    private static JFrame frame;
     private Score score;
 
     private void initializeWindow(int boardWidth, int boardHeight) {
@@ -20,10 +21,11 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
         this.requestFocusInWindow();
     }
 
-    SnakeWindow(GameLogic gameLogic, int boardWidth, int boardHeight) {
+    public SnakeWindow(GameLogic gameLogic, int boardWidth, int boardHeight) {
         initializeWindow(boardWidth,boardHeight);
         this.gameLogic = gameLogic;
         this.draw = new Draw();
+        frame = new JFrame();
         score = new Score();
     }
 
@@ -35,9 +37,23 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        draw.drawGameWindow(graphics);
-        draw.drawTiles(graphics, gameLogic.getSnake(), gameLogic.getFood());
-        draw.drawScore(graphics, score);
+        Graphics2D g2d = (Graphics2D) graphics;
+
+        draw.drawGameWindow(g2d);
+        draw.drawTiles(g2d, gameLogic.getSnake(), gameLogic.getFood());
+        draw.drawScore(g2d, score);
+
+        if (gameLogic.isGameOver()) {
+            draw.drawGameOver(g2d);
+        }
+    }
+
+    public static void exit() {
+        System.out.println("Exiting game...");
+        if (frame != null) {
+            frame.dispose();
+        }
+        System.exit(0);
     }
 
     @Override
