@@ -1,7 +1,7 @@
 package main;
 
 public class Score {
-    private int score;
+    private static int score;
 
     public Score() {
         score = 0;
@@ -11,7 +11,7 @@ public class Score {
         return score;
     }
 
-    public void increaseScore() {
+    public static void increaseScore() {
         score += 10;
     }
 }

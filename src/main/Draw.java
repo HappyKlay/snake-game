@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.*;
+import java.util.Deque;
 
 
 public class Draw {
@@ -38,34 +39,63 @@ public class Draw {
     public void drawTiles(Graphics graphics, Snake snake, Tile food) {
         Graphics2D g2d = (Graphics2D) graphics;
 
-        // Draws food
-        g2d.setColor(Constants.FOOD_COLOR);
-        g2d.fillOval(
-                food.x() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
-                food.y() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
-                Constants.TILE_SIZE,
-                Constants.TILE_SIZE
-        );
+        drawFood(g2d, food);
+        drawSnake(g2d, snake);
+    }
 
+    private void drawFood(Graphics2D g2d, Tile food) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Draws snake's body
-        for (Tile tile : snake.getBody()) {
-            g2d.setColor(Color.blue);
-            g2d.fillOval(
-                    tile.x() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
-                    tile.y() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
-                    Constants.TILE_SIZE,
-                    Constants.TILE_SIZE
-            );
+        int foodX = food.x() * Constants.TILE_SIZE;
+        int foodY = food.y() * Constants.TILE_SIZE;
+
+        g2d.setColor(new Color(231, 71, 29));
+        g2d.fillOval(foodX - Constants.BORDER_WIDTH + 8, foodY - Constants.BORDER_WIDTH + 8, (int) (Constants.TILE_SIZE / 1.5), (int) (Constants.TILE_SIZE / 1.5));
+
+        g2d.setColor(new Color(236, 115, 90));
+        g2d.fillArc(foodX - 10, foodY - 11, 10, 20, 50, 150);
+
+        g2d.setColor(new Color(151, 110, 76));
+        g2d.fillRect(foodX - 1, foodY - 23, 4, 10);
+
+        g2d.setColor(new Color(72, 196, 39));
+        g2d.fillOval(foodX - 1, foodY - 23, 10, 6);
+    }
+
+    private void drawSnake(Graphics2D g2d, Snake snake) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Deque<Tile> body = snake.getBody();
+
+        boolean isHead = true;
+        for (Tile tile : body) {
+            int tileX = tile.x() * Constants.TILE_SIZE - Constants.BORDER_WIDTH;
+            int tileY = tile.y() * Constants.TILE_SIZE - Constants.BORDER_WIDTH;
+
+            if (isHead) {
+                g2d.setColor(Color.RED);
+                g2d.fillOval(tileX, tileY, Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+                g2d.setColor(new Color(255, 255, 255, 100));
+                g2d.fillOval(tileX + Constants.TILE_SIZE / 4, tileY + Constants.TILE_SIZE / 4,
+                        Constants.TILE_SIZE / 2, Constants.TILE_SIZE / 2);
+
+                g2d.setColor(Color.BLACK);
+                g2d.setStroke(new BasicStroke(2));
+                g2d.drawOval(tileX, tileY, Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+                isHead = false;
+            } else {
+                GradientPaint gradient = new GradientPaint(tileX, tileY, Color.BLUE,
+                        tileX + Constants.TILE_SIZE, tileY + Constants.TILE_SIZE, Color.CYAN);
+                g2d.setPaint(gradient);
+                g2d.fillOval(tileX, tileY, Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+                g2d.setColor(Color.BLACK);
+                g2d.setStroke(new BasicStroke(2));  // Border thickness
+                g2d.drawOval(tileX, tileY, Constants.TILE_SIZE, Constants.TILE_SIZE);
+            }
         }
-
-//         Draws snake's head
-        g2d.setColor(Constants.SNAKE_COLOR);
-        g2d.fillOval(
-                snake.getHead().x() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
-                snake.getHead().y() * Constants.TILE_SIZE - Constants.BORDER_WIDTH,
-                Constants.TILE_SIZE,
-                Constants.TILE_SIZE);
     }
 
     public void drawScore(Graphics graphics, Score score) {
@@ -79,11 +109,11 @@ public class Draw {
         // Draw shadow for score text
         g2d.setColor(Color.DARK_GRAY);
         g2d.setFont(SCORE_FONT);
-        g2d.drawString(scoreText, 11, 31);
+        g2d.drawString(scoreText, 25, 36);
 
         // Draw main score text
         g2d.setColor(Color.WHITE);
-        g2d.drawString(scoreText, 10, 30);
+        g2d.drawString(scoreText, 24, 35);
     }
 
     public void drawGameWindow(Graphics graphics) {

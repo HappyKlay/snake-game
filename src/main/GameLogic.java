@@ -73,6 +73,7 @@ public class GameLogic  {
         }
         if (newHead.x() == food.x() && newHead.y() == food.y()) {
             grow();
+            Score.increaseScore();
             food = generateRandomFood();
             return false;
         }
