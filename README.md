@@ -7,3 +7,6 @@ A snake game in Java. Java Spring Application.
 ### Requirements
 - Java Development Kit (JDK)
 - A Java IDE (e.g., IntelliJ IDEA, Eclipse) or command line tools
+
+## License
+This project is licensed under the [MIT License](LICENSE).
