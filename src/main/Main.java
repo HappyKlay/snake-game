@@ -32,7 +32,7 @@ public class Main {
     }
 
     private static void startGameTimer(ActionListener gameListener) {
-        Timer timer = new Timer(130, gameListener);
+        Timer timer = new Timer(140, gameListener);
         timer.start();
     }
 }

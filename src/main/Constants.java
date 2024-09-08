@@ -13,10 +13,6 @@ public class Constants {
     public static final int SNAKE_HEAD_START_X = 4;
     public static final int SNAKE_HEAD_START_Y = 8;
 
-    public static final Color BACKGROUNG_COLOR  = Color.BLACK;
-    public static final Color FOOD_COLOR        = Color.red;
-    public static final Color SNAKE_COLOR       = Color.green;
-//    public static final Color SNAKE_HEAD_COLOR =
     public static final int BOARD_COLUMNS   = BOARD_HEIGHT / TILE_SIZE;
     public static final int BOARD_ROWS      = BOARD_WIDTH / TILE_SIZE;
 

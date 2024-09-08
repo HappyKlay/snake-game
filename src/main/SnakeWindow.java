@@ -13,6 +13,7 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     private static JFrame frame;
     private Score score;
 
+
     private void initializeWindow(int boardWidth, int boardHeight) {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
 
@@ -31,6 +32,11 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (gameLogic.wasMoved) {
+            gameLogic.wasMoved = false;
+            repaint();
+            return;
+        }
         gameLogic.move();
         repaint();
     }

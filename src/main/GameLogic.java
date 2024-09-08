@@ -8,22 +8,44 @@ public class GameLogic  {
     private Tile food = new Tile(10, 8);
     private Snake snake = new Snake();
     private boolean gameOver = false;
+    private Constants.Direction previousDirection = Constants.Direction.NONE;
     private Constants.Direction direction = Constants.Direction.NONE;
 
     public void move() {
-        if (direction == Constants.Direction.NONE) {
+        if (direction == Constants.Direction.NONE || gameOver) {
             return;
         }
 
         Tile newHead = calculateNewHeadPosition();
+
+        if (isMovingIntoHimself(newHead)) {
+            return;
+        }
 
         if (isCollision(newHead)) {
             gameOver();
             return;
         }
 
+        previousDirection = direction;
         snake.setHead(newHead);
         snake.removeLastPart();
+    }
+
+
+    private boolean isMovingIntoHimself(Tile head) {
+        Iterator<Tile> iterator = snake.getBody().iterator();
+        if (!iterator.hasNext()) {
+            return false;
+        }
+
+        iterator.next();
+
+        if (iterator.hasNext()) {
+            Tile tile = iterator.next();
+            return head.x() == tile.x() && head.y() == tile.y();
+        }
+        return false;
     }
 
     private Tile calculateNewHeadPosition() {
@@ -33,22 +55,49 @@ public class GameLogic  {
         );
     }
 
-    public void setDirection (Constants.Direction newDirection) {
+    private void setDirection (Constants.Direction newDirection) {
         if (newDirection == null || newDirection == newDirection.opposite()) {
             return;
         }
         if (direction == Constants.Direction.NONE && newDirection == Constants.Direction.LEFT) {
             return;
         }
+        if (previousDirection == direction.opposite() && direction != Constants.Direction.NONE) {
+            return;
+        }
         this.direction = newDirection;
     }
-
+    public boolean wasMoved = false;
     public void handleKey(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP, KeyEvent.VK_W -> setDirection(Constants.Direction.UP);
-            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> setDirection(Constants.Direction.DOWN);
-            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> setDirection(Constants.Direction.LEFT);
-            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> setDirection(Constants.Direction.RIGHT);
+            case KeyEvent.VK_UP, KeyEvent.VK_W -> {
+                setDirection(Constants.Direction.UP);
+                if (direction != previousDirection) {
+                    move();
+                    wasMoved = true;
+                }
+            }
+            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> {
+                setDirection(Constants.Direction.DOWN);
+                if (direction != previousDirection) {
+                    move();
+                    wasMoved = true;
+                }
+            }
+            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> {
+                setDirection(Constants.Direction.LEFT);
+                if (direction != previousDirection) {
+                    move();
+                    wasMoved = true;
+                }
+            }
+            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> {
+                setDirection(Constants.Direction.RIGHT);
+                if (direction != previousDirection) {
+                    move();
+                    wasMoved = true;
+                }
+            }
             case KeyEvent.VK_Q -> {
                 if (isGameOver())
                     SnakeWindow.exit();
@@ -71,6 +120,7 @@ public class GameLogic  {
         if (newHead.x() <= 0 || newHead.y() <= 1 || newHead.x() > Constants.BOARD_ROWS || newHead.y() > Constants.BOARD_COLUMNS + 1) {
             return true;
         }
+
         if (newHead.x() == food.x() && newHead.y() == food.y()) {
             grow();
             Score.increaseScore();
@@ -100,10 +150,6 @@ public class GameLogic  {
     private void grow() {
         Tile tile = snake.getLastPart();
         snake.addTile(tile.x() - direction.getDeltaX(), tile.y() - direction.getDeltaY());
-    }
-
-    private void updateFood(int x, int y) {
-        this.food = new Tile(x, y);
     }
 
     public void gameOver() {
