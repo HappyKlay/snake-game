@@ -11,7 +11,7 @@ public class SnakeWindow extends JPanel implements KeyListener, ActionListener {
     private final GameLogic gameLogic;
     private final Draw draw;
     private static JFrame frame;
-    private Score score;
+    private final Score score;
 
 
     private void initializeWindow(int boardWidth, int boardHeight) {

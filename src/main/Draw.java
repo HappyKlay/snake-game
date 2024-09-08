@@ -5,17 +5,18 @@ import java.util.Deque;
 
 
 public class Draw {
-    private static final Color LIGHT_TILE_COLOR = new Color(170, 215, 81);
-    private static final Color DARK_TILE_COLOR = new Color(162, 209, 73);
-    private static final Color BORDER_COLOR = new Color(87, 138, 52);
-    private static final Color SCORE_BACKGROUND_COLOR = new Color(59, 94, 35);
-    private static final Font SCORE_FONT = new Font("Serif", Font.BOLD | Font.ITALIC, 30);
+    private static final Color LIGHT_TILE_COLOR           = new Color(170, 215, 81);
+    private static final Color DARK_TILE_COLOR            = new Color(162, 209, 73);
+    private static final Color BORDER_COLOR               = new Color(87, 138, 52);
+    private static final Color SCORE_BACKGROUND_COLOR     = new Color(59, 94, 35);
+    private static final Font SCORE_FONT                  = new Font("Serif", Font.BOLD | Font.ITALIC, 30);
     private static final Color GAME_OVER_BACKGROUND_COLOR = new Color(0, 0, 0, 150);
-    private static final Font GAME_OVER_FONT = new Font("Serif", Font.BOLD, 80);
-    private static final Font INSTRUCTION_FONT = new Font("Serif", Font.PLAIN, 30);
-    private static final Color GAME_OVER_TEXT_COLOR = Color.RED;
-    private static final Color INSTRUCTION_TEXT_COLOR = Color.WHITE;
-    private static final float BACKGROUND_ALPHA = 0.6f;
+    private static final Font GAME_OVER_FONT              = new Font("Serif", Font.BOLD, 80);
+    private static final Font INSTRUCTION_FONT            = new Font("Serif", Font.PLAIN, 30);
+    private static final Color GAME_OVER_TEXT_COLOR       = Color.RED;
+    private static final Color INSTRUCTION_TEXT_COLOR     = Color.WHITE;
+    private static final float BACKGROUND_ALPHA           = 0.6f;
+
     private Color getTileColor(int row, int col) {
         return (row + col) % 2 == 0 ? LIGHT_TILE_COLOR : DARK_TILE_COLOR;
     }

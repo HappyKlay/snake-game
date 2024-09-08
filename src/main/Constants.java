@@ -8,7 +8,7 @@ public class Constants {
     public static final int SCREEN_WIDTH   = 750;
     public static final int SCREEN_HEIGHT  = 800;
     public static final int TILE_SIZE      = 50;
-    public static final int BORDER_WIDTH    = 25;
+    public static final int BORDER_WIDTH   = 25;
 
     public static final int SNAKE_HEAD_START_X = 4;
     public static final int SNAKE_HEAD_START_Y = 8;
